@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:GetMySongs.ViewModel"
+             mc:Ignorable="d"
+             x:Class="GetMySongs.MainPage">
+
+    <StackLayout>
+        <!-- Place new controls here -->
+        <Label Text="Username" HorizontalOptions="Center"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="100" />
+            </Grid.ColumnDefinitions>
+            <Entry WidthRequest="200" Grid.Column="0" Text="{Binding userName}" HorizontalOptions="CenterAndExpand"
+           VerticalOptions="StartAndExpand" />
+            <Button Grid.Column="1" Text="Search" 
+           HorizontalOptions="Center"
+           VerticalOptions="CenterAndExpand" Command="{Binding SearchCommand}"/>
+        </Grid>
+        <Button Text="Performances(1314)" HeightRequest="100" FontSize="Large"/>
+        <Button Text="Favorites(314)" HeightRequest="100" FontSize="Large" Command="{Binding FavCommand}"/>
+    </StackLayout>
+
+</ContentPage>
