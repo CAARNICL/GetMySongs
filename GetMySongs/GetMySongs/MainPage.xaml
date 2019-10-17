@@ -5,10 +5,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:GetMySongs.ViewModel"
              mc:Ignorable="d"
-             x:Class="GetMySongs.MainPage">
+             x:Class="GetMySongs.MainPage" Title="GetMySongs">
 
     <StackLayout>
         <!-- Place new controls here -->
+        <ActivityIndicator x:Name="ActivityIndicator" Color="Green" IsRunning="{Binding IsBusy, Mode=TwoWay}" IsVisible="{Binding IsBusy, Mode=TwoWay}"/>
         <Label Text="Username" HorizontalOptions="Center"/>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -21,8 +22,18 @@
            HorizontalOptions="Center"
            VerticalOptions="CenterAndExpand" Command="{Binding SearchCommand}"/>
         </Grid>
-        <Button Text="Performances(1314)" HeightRequest="100" FontSize="Large"/>
-        <Button Text="Favorites(314)" HeightRequest="100" FontSize="Large" Command="{Binding FavCommand}"/>
+        <ListView ItemsSource="{Binding performList}" SelectedItem="{Binding SelectedItem}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                            <Label Text="{Binding Count}" FontSize="Large"/>
+                            <Label Text="{Binding Title}" FontSize="Large"/>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </StackLayout>
 
 </ContentPage>

@@ -7,6 +7,7 @@
              x:Class="GetMySongs.View.FavoritesView" Title="{Binding userName}">
     <ContentPage.Content>
         <StackLayout>
+            <ActivityIndicator x:Name="ActivityIndicator" Color="Green" IsRunning="{Binding IsBusy, Mode=TwoWay}" IsVisible="{Binding IsBusy, Mode=TwoWay}"/>
             <ListView ItemsSource="{Binding userList}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -16,7 +17,7 @@
                       CommandParameter="{Binding .}"
                       Text="Download" />
                             </ViewCell.ContextActions>
-                            <Label Text="{Binding Title}"/>
+                            <Label Text="{Binding Title}" FontSize="Large" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>

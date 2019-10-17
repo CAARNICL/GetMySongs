@@ -10,13 +10,15 @@ using Xamarin.Forms;
 
 namespace GetMySongs.ViewModel
 {
-    public class FavoritesViewModel
+    public class FavoritesViewModel : ViewModelBase
     {
         public string userName { get; set; }
         public ObservableCollection<SongListItem> userList { get; set; }
 
         public ICommand DownloadCommand => new Command(Download);
 
+        private bool _isBusy = false;
+        public bool IsBusy { get { return _isBusy; } set { _isBusy = value; RaisePropertyChanged("IsBusy"); } }
         private void Download(object obj)
         {
 
@@ -32,7 +34,9 @@ namespace GetMySongs.ViewModel
         private async void GetFavorites()
         {
             SmuleClient client = new SmuleClient();
+            IsBusy = true;
             List<SmuleLib.Model.List> favSongs = await client.GetFavoritesAsync(userName);
+            IsBusy = false;
             foreach(SmuleLib.Model.List song in favSongs)
             {
                 SongListItem item = new SongListItem();
