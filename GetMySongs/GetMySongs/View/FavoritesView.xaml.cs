@@ -13,10 +13,17 @@ namespace GetMySongs.View
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class FavoritesView : ContentPage
     {
+        private FavoritesViewModel favModel;
         public FavoritesView(string theUsername)
         {
             InitializeComponent();
-            BindingContext = new FavoritesViewModel(theUsername);
+            favModel = new FavoritesViewModel(theUsername);
+            BindingContext = favModel;
+        }
+
+        private void Download_Clicked(object sender, EventArgs e)
+        {
+            favModel.Download((sender as MenuItem).CommandParameter as GetMySongs.Model.SongListItem);
         }
     }
 }

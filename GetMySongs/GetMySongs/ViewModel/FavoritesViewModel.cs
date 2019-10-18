@@ -1,4 +1,5 @@
-﻿using GetMySongs.Model;
+﻿using GetMySongs.Interface;
+using GetMySongs.Model;
 using SmuleLib;
 using SmuleLib.Model;
 using System;
@@ -15,13 +16,14 @@ namespace GetMySongs.ViewModel
         public string userName { get; set; }
         public ObservableCollection<SongListItem> userList { get; set; }
 
-        public ICommand DownloadCommand => new Command(Download);
-
         private bool _isBusy = false;
         public bool IsBusy { get { return _isBusy; } set { _isBusy = value; RaisePropertyChanged("IsBusy"); } }
-        private void Download(object obj)
+        public void Download(SongListItem obj)
         {
-
+            SmuleClient client = new SmuleClient();
+            DependencyService.Get<ISaveFile>().SaveFile();
+            //string thePath = Environment..GetExternalStoragePublicDirectory(Environment.DirectoryDocuments).AbsolutePath Environment.GetFolderPath(Environment.SpecialFolder.);
+            client.DownloadSong(obj.DownloadUri, obj.Title, "/storage/emulated/0/Music/");
         }
 
         public FavoritesViewModel(string theUsername)
@@ -41,6 +43,10 @@ namespace GetMySongs.ViewModel
             {
                 SongListItem item = new SongListItem();
                 item.Title = song.title;
+                item.Performare = song.other_performers.Length > 0 ? (song.other_performers[0].handle + " - " + song.owner.handle) : song.owner.handle;
+                item.PerformanceDate = song.created_at.ToString();
+                item.PerformareGroup = song.owner.handle;
+                item.DownloadUri = song.web_url;
                 userList.Add(item);
             }
         }

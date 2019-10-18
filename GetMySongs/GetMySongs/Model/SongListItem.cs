@@ -7,5 +7,12 @@ namespace GetMySongs.Model
     public class SongListItem
     {
         public String Title { get; set; }
+        public String Performare { get; set; }
+        public String PerformanceDate { get; set; }
+        public string PerformareGroup { set; get; }
+        public string DownloadUri
+        {
+            get;set;
+        }
     }
 }

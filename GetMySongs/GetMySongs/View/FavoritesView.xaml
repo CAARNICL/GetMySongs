@@ -8,17 +8,18 @@
     <ContentPage.Content>
         <StackLayout>
             <ActivityIndicator x:Name="ActivityIndicator" Color="Green" IsRunning="{Binding IsBusy, Mode=TwoWay}" IsVisible="{Binding IsBusy, Mode=TwoWay}"/>
-            <ListView ItemsSource="{Binding userList}">
+            <ListView ItemsSource="{Binding userList}" >
+                <!--GroupDisplayBinding="{Binding PerformareGroup}" IsGroupingEnabled="True"-->
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell>
-                            <ViewCell.ContextActions>
-                                <MenuItem Command="{Binding DownloadCommand}"
+                        <TextCell Text="{Binding Title}" Detail="{Binding Performare}">
+                            <TextCell.ContextActions>
+                                <MenuItem Clicked="Download_Clicked"
                       CommandParameter="{Binding .}"
                       Text="Download" />
-                            </ViewCell.ContextActions>
-                            <Label Text="{Binding Title}" FontSize="Large" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
-                        </ViewCell>
+                            </TextCell.ContextActions>
+                        </TextCell>
+                       
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
