@@ -42,7 +42,7 @@ namespace GetMySongs.ViewModel
                 {
                     case "Favorites":
                         {
-                            Navigation.PushAsync(new FavoritesView(userName));
+                            Navigation.PushAsync(new SongsView(userName));
                         }break;
                 }
         }

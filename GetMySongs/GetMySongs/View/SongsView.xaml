@@ -4,13 +4,13 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="GetMySongs.View.SongsView" Title="{Binding userName}">
+             x:Class="GetMySongs.View.FavoritesView" Title="{Binding userName}">
     <ContentPage.Content>
         <StackLayout>
             <ActivityIndicator x:Name="ActivityIndicator" Color="Green" IsRunning="{Binding IsBusy, Mode=TwoWay}" IsVisible="{Binding IsBusy, Mode=TwoWay}"/>
-            <ListView ItemsSource="{Binding userList}" >
+            <CollectionView ItemsSource="{Binding userList}" >
                 <!--GroupDisplayBinding="{Binding PerformareGroup}" IsGroupingEnabled="True"-->
-                <ListView.ItemTemplate>
+                <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <TextCell Text="{Binding Title}" Detail="{Binding Performare}">
                             <TextCell.ContextActions>
@@ -21,8 +21,8 @@
                         </TextCell>
                        
                     </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

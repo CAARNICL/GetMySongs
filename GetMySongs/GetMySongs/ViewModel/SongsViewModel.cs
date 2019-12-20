@@ -12,7 +12,7 @@ using Xamarin.Forms;
 
 namespace GetMySongs.ViewModel
 {
-    public class FavoritesViewModel : ViewModelBase
+    public class SongsViewModel : ViewModelBase
     {
         public string userName { get; set; }
         public ObservableCollection<SongListItem> userList { get; set; }
@@ -27,7 +27,7 @@ namespace GetMySongs.ViewModel
             client.DownloadSong(obj.DownloadUri, obj.Title, "/storage/emulated/0/Music/");
         }
 
-        public FavoritesViewModel(string theUsername)
+        public SongsViewModel(string theUsername)
         {
             userName = theUsername;
             userList = new ObservableCollection<SongListItem>();
@@ -38,7 +38,7 @@ namespace GetMySongs.ViewModel
         {
             SmuleClient client = new SmuleClient();
             IsBusy = true;
-            List<SmuleLib.Model.List> favSongs = await client.GetFavoritesAsync(userName);
+            List<SmuleLib.Model.List> favSongs = await client.GetFavoritesAsync(userName, 200);
             IsBusy = false;
             foreach(SmuleLib.Model.List song in favSongs)
             {
