@@ -10,6 +10,7 @@ namespace GetMySongs.Model
         public String Performare { get; set; }
         public String PerformanceDate { get; set; }
         public string PerformareGroup { set; get; }
+        public string MediaUri { get; set; }
         public string DownloadUri
         {
             get;set;

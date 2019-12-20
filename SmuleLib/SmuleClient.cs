@@ -98,7 +98,23 @@ namespace SmuleLib
                 //   }
             }
         }
+        /*
+        public async void DownloadSong(string theUri, string theTitle)
+        {
+            /*string path = Path.Combine(thePath, theTitle + ".mp4");
+            using (Stream output = File.OpenWrite(path))
+            {
+                var res2 = await _httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Get, uri)).ConfigureAwait(false);
 
+                var input = await res2.Content.ReadAsStreamAsync();
+
+                using (var streamReader = new StreamReader(input))
+                {
+                    //string all = streamReader.ReadToEnd();
+                    streamReader.BaseStream.CopyTo(output);
+                }
+            }
+        }*/
         public async void DownloadSong(string theUri, string theTitle, string thePath)
         {
             // foreach(SmuleSong song in theDownloadList)

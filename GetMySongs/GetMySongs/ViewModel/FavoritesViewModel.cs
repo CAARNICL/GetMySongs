@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Web;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -47,6 +48,7 @@ namespace GetMySongs.ViewModel
                 item.PerformanceDate = song.created_at.ToString();
                 item.PerformareGroup = song.owner.handle;
                 item.DownloadUri = song.web_url;
+                item.MediaUri = HttpUtility.UrlEncode(song.media_url);
                 userList.Add(item);
             }
         }
