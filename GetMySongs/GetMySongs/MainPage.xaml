@@ -6,7 +6,6 @@
              xmlns:vm="clr-namespace:GetMySongs.ViewModel"
              mc:Ignorable="d"
              x:Class="GetMySongs.MainPage" Title="GetMySongs">
-
     <StackLayout>
         <!-- Place new controls here -->
         <ActivityIndicator x:Name="ActivityIndicator" Color="Green" IsRunning="{Binding IsBusy, Mode=TwoWay}" IsVisible="{Binding IsBusy, Mode=TwoWay}"/>
@@ -22,13 +21,13 @@
            HorizontalOptions="Center"
            VerticalOptions="CenterAndExpand" Command="{Binding SearchCommand}"/>
         </Grid>
-        <ListView ItemsSource="{Binding performList}" SelectedItem="{Binding SelectedItem}">
+        <ListView ItemsSource="{Binding performList}" SelectedItem="{Binding SelectedItem}" BackgroundColor="White">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-                            <Label Text="{Binding Count}" FontSize="Large"/>
-                            <Label Text="{Binding Title}" FontSize="Large"/>
+                            <Label Text="{Binding Count}" FontSize="Large" BackgroundColor="White"/>
+                            <Label Text="{Binding Title}" FontSize="Large" BackgroundColor="White"/>
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>

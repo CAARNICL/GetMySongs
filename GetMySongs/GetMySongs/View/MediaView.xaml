@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="GetMySongs.View.MediaView">
+  <ContentPage.Content>
+      <StackLayout>
+            <MediaElement Source="file:///Users/StenmannsAr/Library/Developer/CoreSimulator/Devices/CEDB9333-2F31-4DFE-8D5D-A788824F4727/data/Containers/Data/Application/403235A7-D462-46D5-AD16-C4520874B439/Documents/Music/Run.mp4"
+              ShowsPlaybackControls="True" />
+        </StackLayout>
+  </ContentPage.Content>
+</ContentPage>

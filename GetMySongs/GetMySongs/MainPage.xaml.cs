@@ -1,4 +1,5 @@
-﻿using GetMySongs.ViewModel;
+﻿using GetMySongs.View;
+using GetMySongs.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,6 +19,11 @@ namespace GetMySongs
         {
             InitializeComponent();
             BindingContext = new MainViewModel(Navigation);
+        }
+
+        private void ShowFiles_Clicked(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new FilesView());
         }
     }
 }

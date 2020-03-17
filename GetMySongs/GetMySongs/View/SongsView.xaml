@@ -4,25 +4,26 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="GetMySongs.View.FavoritesView" Title="{Binding userName}">
+             x:Class="GetMySongs.View.SongsView" Title="{Binding userName}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Download ALL" Clicked="Download_ALL"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
             <ActivityIndicator x:Name="ActivityIndicator" Color="Green" IsRunning="{Binding IsBusy, Mode=TwoWay}" IsVisible="{Binding IsBusy, Mode=TwoWay}"/>
-            <CollectionView ItemsSource="{Binding userList}" >
-                <!--GroupDisplayBinding="{Binding PerformareGroup}" IsGroupingEnabled="True"-->
-                <CollectionView.ItemTemplate>
+            <ListView ItemsSource="{Binding userList}"  BackgroundColor="White">
+                <ListView.ItemTemplate>
                     <DataTemplate>
-                        <TextCell Text="{Binding Title}" Detail="{Binding Performare}">
+                        <TextCell Grid.Row="0" Grid.Column="1" Text="{Binding Title}" Detail="{Binding Performare}" >
                             <TextCell.ContextActions>
                                 <MenuItem Clicked="Download_Clicked"
                       CommandParameter="{Binding .}"
                       Text="Download" />
                             </TextCell.ContextActions>
                         </TextCell>
-                       
                     </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

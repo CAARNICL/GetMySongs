@@ -1,4 +1,5 @@
-﻿using GetMySongs.ViewModel;
+﻿using GetMySongs.Model;
+using GetMySongs.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,16 +15,30 @@ namespace GetMySongs.View
     public partial class SongsView : ContentPage
     {
         private SongsViewModel SongsModel;
-        public SongsView(string theUsername)
+
+        public SongsView(string theUsername, int count = -1)
         {
-            InitializeComponent();
-            SongsModel = new SongsViewModel(theUsername);
+            SongsModel = new SongsViewModel(theUsername, count);
             BindingContext = SongsModel;
+            InitializeComponent();
         }
 
-        private void Download_Clicked(object sender, EventArgs e)
+        private async void Download_Clicked(object sender, EventArgs e)
         {
-            SongsModel.Download((sender as MenuItem).CommandParameter as GetMySongs.Model.SongListItem);
+            await SongsModel.Download((sender as MenuItem).CommandParameter as GetMySongs.Model.SongListItem);
+        }
+
+        private async void Download_ALL(object sender, EventArgs e)
+        {
+            int i = 0;
+            await SongsModel.DonmwloadAll();
+            /*foreach(SongListItem song in SongsModel.userList)
+            {
+                i++;
+                await SongsModel.Download(song);
+                this.Title = "Download " + i + " von " + SongsModel.userList.Count;
+            }*/
+            //SongsModel.Download((sender as MenuItem).CommandParameter as GetMySongs.Model.SongListItem);
         }
     }
 }

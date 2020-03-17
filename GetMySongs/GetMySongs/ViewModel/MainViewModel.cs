@@ -52,6 +52,7 @@ namespace GetMySongs.ViewModel
         public Uri userImage { get; set; }
         private async void Search(object obj)
         {
+            performList.Clear();
             IsBusy = true;
             SmuleLib.SmuleClient client = new SmuleLib.SmuleClient();
             Profile profile = await client.GetProfileAsync(userName);
