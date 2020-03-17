@@ -50,7 +50,35 @@ namespace SmuleLib
             return null;
         }
 
-        public async System.Threading.Tasks.Task<List<List>> GetFavoritesAsync(string theName)
+        public async System.Threading.Tasks.Task<List<List>> GetFavoritesAsync(string theName, string from, string size)
+        {
+            List<List> returnList = new List<List>();
+
+            Favorites currentFavorites = new Favorites();
+                var res3 = await _httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Get, @"/" + theName + "/favorites/json?offset=" + from + "&size="+ size)).ConfigureAwait(false);
+                var retstream = await res3.Content.ReadAsStringAsync();
+                currentFavorites = JsonConvert.DeserializeObject<Favorites>(retstream);
+                returnList.AddRange(currentFavorites.list);
+
+
+            return returnList;
+        }
+
+        public async System.Threading.Tasks.Task<List<List>> GetFavoritesAsync(string theName, string from)
+        {
+            List<List> returnList = new List<List>();
+
+            Favorites currentFavorites = new Favorites();
+                var res3 = await _httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Get, @"/" + theName + "/favorites/json?offset=" + from + "&size=200")).ConfigureAwait(false);
+                var retstream = await res3.Content.ReadAsStringAsync();
+                currentFavorites = JsonConvert.DeserializeObject<Favorites>(retstream);
+                returnList.AddRange(currentFavorites.list);
+
+
+            return returnList;
+        }
+
+        public async System.Threading.Tasks.Task<List<List>> GetFavoritesAsync(string theName, int theSize = -1)
         {
             List<List> returnList = new List<List>();
 
@@ -61,7 +89,7 @@ namespace SmuleLib
                 var retstream = await res3.Content.ReadAsStringAsync();
                 currentFavorites = JsonConvert.DeserializeObject<Favorites>(retstream);
                 returnList.AddRange(currentFavorites.list);
-            } while (currentFavorites.next_offset != -1);
+            } while ((currentFavorites.next_offset != -1 && theSize == -1) || (returnList.Count > theSize && theSize != -1));
 
 
             return returnList;
