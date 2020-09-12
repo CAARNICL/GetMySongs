@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:GetMySongs.Helper"
+             xmlns:jbb="clr-namespace:GetMySongs.AnimatedProgress"
+             mc:Ignorable="d"
+             x:Class="GetMySongs.View.TestView" Title="TestView">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Test" Command="{Binding TestCommand}" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:BoolToColorConverter x:Key="BoolToColorConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+
+        <StackLayout>
+            <ListView ItemsSource="{Binding TestListe}">
+
+                <ListView.ItemTemplate >
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.ContextActions>
+                                <MenuItem Command="{Binding Download_Clicked}"
+                                            CommandParameter="{Binding .}"
+                                            Text="Download" />
+                            </ViewCell.ContextActions>
+                            <Grid BackgroundColor="{Binding IsDownloaded, Converter={StaticResource BoolToColorConverter}}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80*" />
+                                    <ColumnDefinition Width="30" />
+                                </Grid.ColumnDefinitions>
+                                <StackLayout Grid.Column="0" Orientation="Vertical" Margin="10,0">
+                                        <Label Text="{Binding Title}" VerticalOptions="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="End" FontSize="Subtitle" />
+                                        <Label Text="{Binding Performare}" VerticalOptions="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" FontSize="Default"/>
+                                    </StackLayout>
+                                    <Label Grid.Column="1" Text="{Binding Progress}" VerticalOptions="Center" IsVisible="{Binding IsDownloading}"/>
+                            </Grid>
+
+                           
+                        </ViewCell>
+                        
+                    </DataTemplate>
+                    
+
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
