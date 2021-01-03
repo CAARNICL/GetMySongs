@@ -22,10 +22,21 @@ namespace GetMySongs.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            UIApplication.SharedApplication.SetMinimumBackgroundFetchInterval(UIApplication.BackgroundFetchIntervalMinimum);
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);
         }
+
+        /*
+        public override async void PerformFetch(UIApplication app, Action completionHandler)
+        {
+            // Download an image and save to disk
+            var result = await FetchImage("https://www.xamarin.com/content/images/pages/branding/assets/xamagon.png");
+
+            // Call the completion handler with the proper result
+            completionHandler(result);
+        }*/
     }
 }

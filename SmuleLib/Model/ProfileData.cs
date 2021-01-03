@@ -104,7 +104,7 @@ namespace SmuleLib.Model
 
     public class Followingconfig
     {
-        public int accountId { get; set; }
+        public double accountId { get; set; }
         public string buttonContainer { get; set; }
         public string analyticsLabel { get; set; }
         public string statusUrl { get; set; }

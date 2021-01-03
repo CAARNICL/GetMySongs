@@ -3,24 +3,46 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:GetMySongs.Helper"
              mc:Ignorable="d"
              x:Class="GetMySongs.View.SongsView" Title="{Binding userName}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:BoolToColorConverter x:Key="BoolToColorConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Download ALL" Clicked="Download_ALL"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
+
         <StackLayout>
             <ActivityIndicator x:Name="ActivityIndicator" Color="Green" IsRunning="{Binding IsBusy, Mode=TwoWay}" IsVisible="{Binding IsBusy, Mode=TwoWay}"/>
-            <ListView ItemsSource="{Binding userList}"  BackgroundColor="White">
+            <!--<SearchBar x:Name="searchBar" SearchCommand="{Binding SearchCommand}" SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"/>-->
+            <ListView ItemsSource="{Binding userList}"  BackgroundColor="White" ItemTapped="ListView_ItemTapped">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <TextCell Grid.Row="0" Grid.Column="1" Text="{Binding Title}" Detail="{Binding Performare}" >
-                            <TextCell.ContextActions>
+                        <ViewCell>
+                            <ViewCell.ContextActions>
                                 <MenuItem Clicked="Download_Clicked"
-                      CommandParameter="{Binding .}"
-                      Text="Download" />
-                            </TextCell.ContextActions>
-                        </TextCell>
+                                            CommandParameter="{Binding .}"
+                                            Text="Download" />
+                            </ViewCell.ContextActions>
+                            <Grid BackgroundColor="{Binding IsDownloaded, Converter={StaticResource BoolToColorConverter}}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80*" />
+                                    <ColumnDefinition Width="30" />
+                                </Grid.ColumnDefinitions>
+                                <StackLayout Grid.Column="0" Orientation="Vertical" Margin="10,0">
+                                        <Label Text="{Binding Title}" VerticalOptions="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="End" FontSize="Subtitle" />
+                                        <Label Text="{Binding Performare}" VerticalOptions="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Start" FontSize="Default"/>
+                                    </StackLayout>
+                                    <Label Grid.Column="1" Text="{Binding Progress}" VerticalOptions="Center" IsVisible="{Binding IsDownloading}"/>
+                            </Grid>
+
+                           
+                        </ViewCell>
+                        
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>

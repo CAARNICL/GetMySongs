@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -23,6 +24,13 @@ namespace GetMySongs.ViewModel
 
         private bool _isBusy = false;
         public bool IsBusy { get { return _isBusy; } set { _isBusy = value; RaisePropertyChanged("IsBusy"); } }
+
+        public double Progress = 1000;
+
+        public ICommand Download_Clicked { protected set; get; }
+
+        public ICommand SearchCommand { protected set; get; }
+
         public async Task Download(SongListItem obj)
         {
             SmuleClient client = new SmuleClient();
@@ -40,9 +48,16 @@ namespace GetMySongs.ViewModel
                     Directory.CreateDirectory(downloadPath);
                 //ToDo
                 //There is some trouble with file.exists
-               // if(!File.Exists(Path.Combine(downloadPath,obj.Title + ".mp4")))
-                    await client.DownloadSong(obj.DownloadUri, ReplaceIllegal(obj.Title, "_"), downloadPath); 
+                // if(!File.Exists(Path.Combine(downloadPath,obj.Title + ".mp4")))
+                var progress = new Progress<float>();
+                progress.ProgressChanged += Download_Progress_Changed;
+                await client.DownloadSong(obj.DownloadUri, ReplaceIllegal(obj.Title, "_") + "_" + ReplaceIllegal(obj.Performare, "_"), downloadPath, obj.progress); 
             }
+        }
+
+        private void Download_Progress_Changed(object sender, float e)
+        {
+            Console.WriteLine("Download progress: " + e.ToString());
         }
 
         private string ReplaceIllegal(String input, String Replacer)
@@ -54,6 +69,7 @@ namespace GetMySongs.ViewModel
 
         public async Task DonmwloadAll()
         {
+            
             List<SongListItem> downloadList = new List<SongListItem>();
             if (Device.RuntimePlatform == Device.iOS)
             {
@@ -65,7 +81,7 @@ namespace GetMySongs.ViewModel
                 {
                     //ToDo
                     //There is some trouble with file.exists
-                    if (!File.Exists(Path.Combine(downloadPath, ReplaceIllegal(song.Title, "_") + ".mp4")))
+                    if (!File.Exists(Path.Combine(downloadPath, ReplaceIllegal(song.Title, "_") + "_" + ReplaceIllegal(song.Performare,"_") + ".mp4")))
                     {
                         downloadList.Add(song);
                     }
@@ -84,7 +100,7 @@ namespace GetMySongs.ViewModel
                 }
             }
 
-
+            
             
         }
 
@@ -93,24 +109,59 @@ namespace GetMySongs.ViewModel
             _count = theCount;
             userName = theUsername;
             userList = new ObservableCollection<SongListItem>();
-            GetFavorites();
+            Download_Clicked = new Command(async (key) =>
+            {
+                await Download((SongListItem)key);
+            });
+
+            SearchCommand = new Command(async (key) =>
+            {
+                userList = (ObservableCollection<SongListItem>)userList.Where(n => n.Title == "love");
+            });
+            CheckFiles();
         }
 
-        private async void GetFavorites()
+        private async void CheckFiles()
+        {
+            await GetFavorites();
+            //GetLocalFiles();
+        }
+
+        private async 
+        Task
+GetFavorites()
         {
             SmuleClient client = new SmuleClient();
             IsBusy = true;
             List<SmuleLib.Model.List> favSongs = await client.GetFavoritesAsync(userName, _count);
             IsBusy = false;
-            foreach(SmuleLib.Model.List song in favSongs)
+            if (Device.RuntimePlatform == Device.iOS)
             {
-                SongListItem item = new SongListItem();
-                item.Title = song.title;
-                item.Performare = song.other_performers.Length > 0 ? (song.other_performers[0].handle + " - " + song.owner.handle) : song.owner.handle;
-                item.PerformanceDate = song.created_at.ToString();
-                item.PerformareGroup = song.owner.handle;
-                item.DownloadUri = song.web_url;
-                userList.Add(item);
+                string downloadPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                downloadPath = Path.Combine(downloadPath, "Music");
+
+                Random rnd = new Random();
+                foreach (SmuleLib.Model.List song in favSongs)
+                {
+                    SongListItem item = new SongListItem();
+                    item.Title = song.title;
+                    item.Performare = song.other_performers.Length > 0 ? (song.other_performers[0].handle + " - " + song.owner.handle) : song.owner.handle;
+                    item.PerformanceDate = song.created_at.ToString();
+                    item.PerformareGroup = song.owner.handle;
+                    item.DownloadUri = song.web_url;
+
+                    item.Progress = rnd.Next(0, 100);
+                    string path = Path.Combine(downloadPath, ReplaceIllegal(item.Title, "_") + "_" + ReplaceIllegal(item.Performare, "_") + ".mp4");
+                    if (!item.IsDownloaded && File.Exists(path))
+                    {
+                        System.IO.FileInfo fi = new FileInfo(path);
+                        if (fi.Length > 500000)
+                            item.IsDownloaded = true;
+                        else
+                            fi.Delete();
+                    }
+                    userList.Add(item);
+                }
             }
         }
     }

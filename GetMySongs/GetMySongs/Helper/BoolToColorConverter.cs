@@ -18,7 +18,7 @@ namespace GetMySongs.Helper
                     return Color.LightGreen;
                 }
             }
-            return Color.LightGray;
+            return Color.White;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

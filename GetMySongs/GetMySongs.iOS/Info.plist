@@ -38,5 +38,11 @@
 	<true/>
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+	</array>
+	<key>CFBundleShortVersionString</key>
+	<string>0.1</string>
 </dict>
 </plist>

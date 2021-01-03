@@ -1,4 +1,5 @@
 ﻿using System;
+using GetMySongs.View;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
